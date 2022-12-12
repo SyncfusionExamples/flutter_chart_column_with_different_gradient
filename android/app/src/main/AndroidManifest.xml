@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.i372188_columngradient">
+    package="com.example.flutter_chart_column_with_different_gradient">
    <application
-        android:label="i372188_columngradient"
+        android:label="flutter_chart_column_with_different_gradient"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
