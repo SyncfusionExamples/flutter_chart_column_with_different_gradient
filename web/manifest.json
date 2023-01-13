@@ -1,6 +1,6 @@
 {
-    "name": "i372188_columngradient",
-    "short_name": "i372188_columngradient",
+    "name": "flutter_chart_column_with_different_gradient",
+    "short_name": "flutter_chart_column_with_different_gradient",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
