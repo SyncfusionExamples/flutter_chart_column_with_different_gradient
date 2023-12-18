@@ -41,35 +41,34 @@ class _MyHomePageState extends State<_MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        body: SfCartesianChart(
-            primaryXAxis: CategoryAxis(),
-            series: <ChartSeries<_ChartData, String>>[
-              ColumnSeries<_ChartData, String>(
-                dataSource: _chartData,
-                onCreateRenderer: (ChartSeries<_ChartData, String> series) {
-                  return _CustomColumnSeriesRenderer();
-                },
-                xValueMapper: (_ChartData data, _) => data.year,
-                yValueMapper: (_ChartData data, _) => data.sales,
-              )
-            ]));
+      appBar: AppBar(),
+      body: SfCartesianChart(
+        primaryXAxis: const CategoryAxis(),
+        series: <CartesianSeries<_ChartData, String>>[
+          ColumnSeries<_ChartData, String>(
+            dataSource: _chartData,
+            onCreateRenderer: (ChartSeries<_ChartData, String> series) {
+              return _CustomColumnSeriesRenderer();
+            },
+            xValueMapper: (_ChartData data, _) => data.year,
+            yValueMapper: (_ChartData data, _) => data.sales,
+          ),
+        ],
+      ),
+    );
   }
 }
 
-class _CustomColumnSeriesRenderer extends ColumnSeriesRenderer {
+class _CustomColumnSeriesRenderer<T, D> extends ColumnSeriesRenderer<T, D> {
   _CustomColumnSeriesRenderer();
 
   @override
-  ChartSegment createSegment() {
-    return _ColumnCustomPainter();
+  ColumnSegment<T, D> createSegment() {
+    return _ColumnCustomPainter<T, D>();
   }
 }
 
-class _ColumnCustomPainter extends ColumnSegment {
-  @override
-  int get currentSegmentIndex => super.currentSegmentIndex!;
-
+class _ColumnCustomPainter<T, D> extends ColumnSegment<T, D> {
   @override
   void onPaint(Canvas canvas) {
     // List to hold the number of column data point's gradient
@@ -88,17 +87,20 @@ class _ColumnCustomPainter extends ColumnSegment {
           stops: <double>[0.2, 0.9]),
       const LinearGradient(
           colors: <Color>[Colors.blue, Colors.cyanAccent],
-          stops: <double>[0.2, 0.9])
+          stops: <double>[0.2, 0.9]),
     ];
     // Set the gradient to the fillPaint using createShader method of the gradient.
-    fillPaint!.shader =
-        gradientList[currentSegmentIndex].createShader(segmentRect.outerRect);
+    fillPaint.shader =
+        gradientList[currentSegmentIndex].createShader(segmentRect!.outerRect);
     super.onPaint(canvas);
   }
 }
 
 class _ChartData {
-  _ChartData(this.year, this.sales);
+  _ChartData(
+    this.year,
+    this.sales,
+  );
 
   final String year;
   final double sales;
